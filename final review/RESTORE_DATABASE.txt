@@ -1,0 +1,14 @@
+Database backup included:
+
+  event_booking_system_dump.sql
+
+To restore it in XAMPP MySQL:
+
+  1. Start XAMPP MySQL.
+  2. Open PowerShell.
+  3. From the project root, run this PowerShell command:
+
+     C:\xampp\mysql\bin\mysql.exe -uroot -e "source database/event_booking_system_dump.sql"
+
+This restores the event_booking_system database with the current users, events,
+bookings, tags, OTP, notification, and reminder tables.
