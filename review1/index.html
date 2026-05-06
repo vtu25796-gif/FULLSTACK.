@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RICSTS - Inventory Control</title>
+    <!-- Modern font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login View -->
+        <div id="login-view" class="view active">
+            <div class="login-container">
+                <div class="login-box">
+                    <h2>RICSTS</h2>
+                    <p>Relational Inventory Control</p>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <div id="login-error" class="error-text"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Shell -->
+        <div id="main-view" class="view">
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                    <h2>RICSTS</h2>
+                    <p>Admin Panel</p>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#" data-target="dashboard" class="active">Dashboard</a></li>
+                    <li><a href="#" data-target="products">Products</a></li>
+                    <li><a href="#" data-target="suppliers">Suppliers</a></li>
+                    <li><a href="#" data-target="transactions">Transactions</a></li>
+                </ul>
+                <div class="sidebar-footer">
+                    <button id="logout-btn" class="btn btn-outline">Logout</button>
+                </div>
+            </nav>
+
+            <main class="content-area">
+                <header class="topbar">
+                    <h1 id="page-title">Dashboard</h1>
+                    <div class="user-info">
+                        <span id="current-user">User</span>
+                    </div>
+                </header>
+
+                <div class="scrollable-content">
+                    <!-- Dashboard Section -->
+                    <section id="dashboard" class="content-section active">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3>Total Products</h3>
+                                <div class="value" id="stat-products">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Total Suppliers</h3>
+                                <div class="value" id="stat-suppliers">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Total Items in Stock</h3>
+                                <div class="value" id="stat-items">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Total Stock Value</h3>
+                                <div class="value" id="stat-value">$0.00</div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-panels">
+                            <div class="panel">
+                                <h3>Low Stock Alerts</h3>
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>SKU</th>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="low-stock-list">
+                                        <!-- populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Products Section -->
+                    <section id="products" class="content-section">
+                        <div class="section-header">
+                            <h2>Manage Products</h2>
+                            <button id="btn-add-product" class="btn btn-primary">Add Product</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>SKU</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Supplier</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-list">
+                                    <!-- populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Suppliers Section -->
+                    <section id="suppliers" class="content-section">
+                        <div class="section-header">
+                            <h2>Manage Suppliers</h2>
+                            <button id="btn-add-supplier" class="btn btn-primary">Add Supplier</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="suppliers-list">
+                                    <!-- populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Transactions Section -->
+                    <section id="transactions" class="content-section">
+                        <div class="section-header">
+                            <h2>Stock Transactions</h2>
+                            <button id="btn-add-transaction" class="btn btn-primary">Record Transaction</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Product</th>
+                                        <th>Type</th>
+                                        <th>Quantity</th>
+                                        <th>User</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactions-list">
+                                    <!-- populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <!-- Modals -->
+        <div id="modal-overlay" class="modal-overlay">
+            <!-- Product Modal -->
+            <div id="modal-product" class="modal">
+                <div class="modal-header">
+                    <h3 id="modal-product-title">Add Product</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="product-form">
+                        <input type="hidden" id="product-id">
+                        <div class="form-group">
+                            <label for="product-name">Name</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-sku">SKU</label>
+                                <input type="text" id="product-sku" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-category">Category</label>
+                                <input type="text" id="product-category">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-price">Price</label>
+                                <input type="number" step="0.01" id="product-price" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-supplier">Supplier</label>
+                                <select id="product-supplier" required>
+                                    <!-- populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Quantity only on create -->
+                        <div class="form-group" id="product-quantity-group">
+                            <label for="product-quantity">Initial Stock Quantity</label>
+                            <input type="number" id="product-quantity" value="0">
+                            <small>Stock adjustments after creation should be done via Transactions.</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Supplier Modal -->
+            <div id="modal-supplier" class="modal">
+                <div class="modal-header">
+                    <h3 id="modal-supplier-title">Add Supplier</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="supplier-form">
+                        <input type="hidden" id="supplier-id">
+                        <div class="form-group">
+                            <label for="supplier-name">Name</label>
+                            <input type="text" id="supplier-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier-email">Contact Email</label>
+                            <input type="email" id="supplier-email">
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier-phone">Phone</label>
+                            <input type="text" id="supplier-phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier-address">Address</label>
+                            <textarea id="supplier-address"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Supplier</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Transaction Modal -->
+            <div id="modal-transaction" class="modal">
+                <div class="modal-header">
+                    <h3>Record Stock Transaction</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="transaction-form">
+                        <div class="form-group">
+                            <label for="transaction-product">Product</label>
+                            <select id="transaction-product" required>
+                                <!-- populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Transaction Type</label>
+                            <div class="radio-group">
+                                <label class="radio-label"><input type="radio" name="transaction-type" value="IN" required> Stock IN (+)</label>
+                                <label class="radio-label"><input type="radio" name="transaction-type" value="OUT"> Stock OUT (-)</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="transaction-quantity">Quantity</label>
+                            <input type="number" id="transaction-quantity" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transaction-notes">Notes</label>
+                            <textarea id="transaction-notes" placeholder="Reason for adjustment, PO number, etc."></textarea>
+                        </div>
+                        <div id="transaction-error" class="error-text"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Record</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Logic -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
